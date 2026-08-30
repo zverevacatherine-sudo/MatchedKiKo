@@ -25,62 +25,82 @@ class StartScreen {
 
         this.ctx.fillStyle = "white";
         this.ctx.textAlign = "center";
-        this.ctx.font = "58px Comic Sans MS, Arial";
-        this.ctx.fillText(
-            "AI Knowledge Assessment",
-            CONFIG.WIDTH / 2,
-            185
+
+        this.ctx.font = "bold 72px Arial";
+        this.ctx.fillText("KikoGame", CONFIG.WIDTH / 2, 175);
+
+        this.ctx.font = "bold 27px Arial";
+        this.ctx.fillText("AI-Literacy Assessment", CONFIG.WIDTH / 2, 225);
+
+        this.ctx.fillStyle = start_allowed ? "rgb(39, 44, 78)" : "rgb(128, 128, 128)";
+        drawRoundedRect(
+            this.ctx,
+            this.btn_start.x,
+            this.btn_start.y,
+            this.btn_start.width,
+            this.btn_start.height,
+            18
         );
-
-        this.ctx.font = "25px Comic Sans MS, Arial";
-        this.ctx.fillText(
-            "Please read the assessment information before starting.",
-            CONFIG.WIDTH / 2,
-            235
-        );
-
-        this._drawButton(
-            this.btn_start,
-            "Start",
-            start_allowed ? "rgb(39, 44, 78)" : "rgb(128, 128, 128)",
-            start_allowed ? "white" : "rgb(96, 96, 96)"
-        );
-
-        if (!start_allowed) {
-            this.ctx.font = "22px Comic Sans MS, Arial";
-            this.ctx.fillStyle = "rgb(96, 96, 96)";
-            this.ctx.fillText(
-                "(Read the information first)",
-                CONFIG.WIDTH / 2,
-                this.btn_start.y + 82
-            );
-        }
-
-        this._drawButton(
-            this.btn_info,
-            "Assessment information",
-            "rgb(39, 44, 78)",
-            "white"
-        );
-    }
-
-    _drawButton(rect, text, bg, fg) {
-        this.ctx.fillStyle = bg;
-        drawRoundedRect(this.ctx, rect.x, rect.y, rect.width, rect.height, 18);
         this.ctx.fill();
 
         this.ctx.strokeStyle = "white";
         this.ctx.lineWidth = 2;
-        drawRoundedRect(this.ctx, rect.x, rect.y, rect.width, rect.height, 18);
+        drawRoundedRect(
+            this.ctx,
+            this.btn_start.x,
+            this.btn_start.y,
+            this.btn_start.width,
+            this.btn_start.height,
+            18
+        );
         this.ctx.stroke();
 
-        this.ctx.fillStyle = fg;
+        this.ctx.fillStyle = start_allowed ? "white" : "rgb(96, 96, 96)";
         this.ctx.font = "42px Comic Sans MS, Arial";
-        this.ctx.textAlign = "center";
         this.ctx.fillText(
-            text,
-            rect.x + rect.width / 2,
-            rect.y + rect.height / 2 + 15
+            "Start",
+            CONFIG.WIDTH / 2,
+            this.btn_start.y + (start_allowed ? 70 : 48)
+        );
+
+        if (!start_allowed) {
+            this.ctx.font = "22px Comic Sans MS, Arial";
+            this.ctx.fillText(
+                "(Read the information first)",
+                CONFIG.WIDTH / 2,
+                this.btn_start.y + 86
+            );
+        }
+
+        this.ctx.fillStyle = "rgb(39, 44, 78)";
+        drawRoundedRect(
+            this.ctx,
+            this.btn_info.x,
+            this.btn_info.y,
+            this.btn_info.width,
+            this.btn_info.height,
+            18
+        );
+        this.ctx.fill();
+
+        this.ctx.strokeStyle = "white";
+        this.ctx.lineWidth = 2;
+        drawRoundedRect(
+            this.ctx,
+            this.btn_info.x,
+            this.btn_info.y,
+            this.btn_info.width,
+            this.btn_info.height,
+            18
+        );
+        this.ctx.stroke();
+
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "42px Comic Sans MS, Arial";
+        this.ctx.fillText(
+            "Assessment information",
+            CONFIG.WIDTH / 2,
+            this.btn_info.y + 70
         );
     }
 
