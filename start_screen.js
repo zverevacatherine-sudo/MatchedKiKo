@@ -27,14 +27,14 @@ class StartScreen {
         this.ctx.textAlign = "center";
         this.ctx.font = "58px Comic Sans MS, Arial";
         this.ctx.fillText(
-            "AI Knowledge Assessment",
+            "AI - Literacy Assessment",
             CONFIG.WIDTH / 2,
             185
         );
 
         this.ctx.font = "25px Comic Sans MS, Arial";
         this.ctx.fillText(
-            "Please read the assessment information before starting.",
+            "Read the assessment information first",
             CONFIG.WIDTH / 2,
             235
         );
@@ -52,7 +52,7 @@ class StartScreen {
             this.ctx.fillText(
                 "(Read the information first)",
                 CONFIG.WIDTH / 2,
-                this.btn_start.y + 82
+                this.btn_start.y + 40
             );
         }
 
