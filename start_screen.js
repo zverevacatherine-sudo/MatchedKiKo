@@ -32,13 +32,6 @@ class StartScreen {
             185
         );
 
-        this.ctx.font = "25px Comic Sans MS, Arial";
-        this.ctx.fillText(
-            "Read the assessment information first",
-            CONFIG.WIDTH / 2,
-            235
-        );
-
         this._drawButton(
             this.btn_start,
             "Start",
