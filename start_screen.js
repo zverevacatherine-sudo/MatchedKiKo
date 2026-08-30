@@ -43,16 +43,17 @@ class StartScreen {
             this.btn_start,
             "Start",
             start_allowed ? "rgb(39, 44, 78)" : "rgb(128, 128, 128)",
-            start_allowed ? "white" : "rgb(96, 96, 96)"
+            start_allowed ? "white" : "rgb(96, 96, 96)",
+            start_allowed ? 15 : -5
         );
 
         if (!start_allowed) {
-            this.ctx.font = "22px Comic Sans MS, Arial";
+            this.ctx.font = "24px Comic Sans MS, Arial";
             this.ctx.fillStyle = "rgb(96, 96, 96)";
             this.ctx.fillText(
                 "(Read the information first)",
                 CONFIG.WIDTH / 2,
-                this.btn_start.y + 95
+                this.btn_start.y + this.btn_start.height / 2 + 30
             );
         }
 
@@ -60,18 +61,33 @@ class StartScreen {
             this.btn_info,
             "Assessment information",
             "rgb(39, 44, 78)",
-            "white"
+            "white",
+            15
         );
     }
 
-    _drawButton(rect, text, bg, fg) {
+    _drawButton(rect, text, bg, fg, textOffset = 15) {
         this.ctx.fillStyle = bg;
-        drawRoundedRect(this.ctx, rect.x, rect.y, rect.width, rect.height, 18);
+        drawRoundedRect(
+            this.ctx,
+            rect.x,
+            rect.y,
+            rect.width,
+            rect.height,
+            18
+        );
         this.ctx.fill();
 
         this.ctx.strokeStyle = "white";
         this.ctx.lineWidth = 2;
-        drawRoundedRect(this.ctx, rect.x, rect.y, rect.width, rect.height, 18);
+        drawRoundedRect(
+            this.ctx,
+            rect.x,
+            rect.y,
+            rect.width,
+            rect.height,
+            18
+        );
         this.ctx.stroke();
 
         this.ctx.fillStyle = fg;
@@ -80,7 +96,7 @@ class StartScreen {
         this.ctx.fillText(
             text,
             rect.x + rect.width / 2,
-            rect.y + rect.height / 2 + 15
+            rect.y + rect.height / 2 + textOffset
         );
     }
 
@@ -97,10 +113,12 @@ class StartScreen {
     }
 }
 
+
 class InfoScreen {
     constructor(ctx) {
         this.ctx = ctx;
         this.index = 0;
+
         this.pages = [
             {
                 title: "Assessment information",
@@ -147,22 +165,45 @@ class InfoScreen {
         this.ctx.fillRect(0, 0, CONFIG.WIDTH, CONFIG.HEIGHT);
 
         this.ctx.fillStyle = "rgba(39, 44, 78, 0.96)";
-        drawRoundedRect(this.ctx, 100, 95, 1000, 500, 20);
+        drawRoundedRect(
+            this.ctx,
+            100,
+            95,
+            1000,
+            500,
+            20
+        );
         this.ctx.fill();
 
         this.ctx.strokeStyle = "white";
         this.ctx.lineWidth = 2;
-        drawRoundedRect(this.ctx, 100, 95, 1000, 500, 20);
+        drawRoundedRect(
+            this.ctx,
+            100,
+            95,
+            1000,
+            500,
+            20
+        );
         this.ctx.stroke();
 
         this.ctx.fillStyle = "white";
         this.ctx.textAlign = "center";
         this.ctx.font = "42px Comic Sans MS, Arial";
-        this.ctx.fillText(page.title, CONFIG.WIDTH / 2, 175);
+        this.ctx.fillText(
+            page.title,
+            CONFIG.WIDTH / 2,
+            175
+        );
 
         this.ctx.font = "27px Comic Sans MS, Arial";
+
         page.lines.forEach((line, i) => {
-            this.ctx.fillText(line, CONFIG.WIDTH / 2, 285 + i * 65);
+            this.ctx.fillText(
+                line,
+                CONFIG.WIDTH / 2,
+                285 + i * 65
+            );
         });
 
         this.ctx.fillStyle = "rgb(39, 44, 78)";
@@ -198,9 +239,12 @@ class InfoScreen {
     }
 
     handle_click(x, y) {
-        if (!pointInRect(x, y, this.next_rect)) return null;
+        if (!pointInRect(x, y, this.next_rect)) {
+            return null;
+        }
 
         this.index++;
+
         if (this.index >= this.pages.length) {
             return "done";
         }
