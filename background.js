@@ -3,7 +3,7 @@ class Background {
         this.image = null;
         this.imageLoaded = false;
 
-        loadImage("PICS/Background/cosmos4.png")
+        loadImage("Background/cosmos4.png")
             .then(img => {
                 const canvas = document.createElement("canvas");
                 canvas.width = CONFIG.WIDTH;
