@@ -128,14 +128,6 @@ class InfoScreen {
                     "After answering all three questions, click Continue.",
                     "The next section will then become available."
                 ]
-            },
-            {
-                title: "Completion",
-                lines: [
-                    "Please complete the assessment independently.",
-                    "There is no game task, mission, reward system, or performance feedback.",
-                    "After all five sections, the assessment ends automatically."
-                ]
             }
         ];
 
