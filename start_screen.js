@@ -6,14 +6,14 @@ class StartScreen {
 
         this.btn_start = {
             x: CONFIG.WIDTH / 2 - this.btn_w / 2,
-            y: CONFIG.HEIGHT / 2 - 15,
+            y: CONFIG.HEIGHT / 2 - 45,
             width: this.btn_w,
             height: this.btn_h
         };
 
         this.btn_info = {
             x: CONFIG.WIDTH / 2 - this.btn_w / 2,
-            y: CONFIG.HEIGHT / 2 + 120,
+            y: CONFIG.HEIGHT / 2 + 90,
             width: this.btn_w,
             height: this.btn_h
         };
