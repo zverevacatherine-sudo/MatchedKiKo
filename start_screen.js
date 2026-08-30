@@ -52,7 +52,7 @@ class StartScreen {
             this.ctx.fillText(
                 "(Read the information first)",
                 CONFIG.WIDTH / 2,
-                this.btn_start.y + 40
+                this.btn_start.y + 95
             );
         }
 
