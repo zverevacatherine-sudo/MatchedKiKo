@@ -217,7 +217,7 @@ class InfoScreen {
         this.ctx.fillStyle = "white";
         this.ctx.font = "32px Arial";
         this.ctx.fillText(
-            this.index === this.pages.length - 1 ? "✓" : ">",
+            ">",
             this.next_rect.x + this.next_rect.width / 2,
             this.next_rect.y + 43
         );
