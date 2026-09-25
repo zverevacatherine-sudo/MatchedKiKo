@@ -521,7 +521,7 @@ class AssessmentApp {
             "28px Comic Sans MS, Arial";
 
         this.ctx.fillText(
-            "Continue with Experience Study:",
+            "Continue with Experience Study",
             CONFIG.WIDTH / 2,
             this.continue_study_rect.y +
                 this.continue_study_rect.height /
