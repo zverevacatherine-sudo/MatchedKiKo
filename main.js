@@ -27,7 +27,7 @@ class AssessmentApp {
 
         // Change the Basic-condition Qualtrics link here if needed.
         this.experience_study_url =
-            "https://qualtricsxmbx6typpy4.qualtrics.com/jfe/form/SV_0w8HiouRlacVJH0";
+            "https://qualtricsxmbx6typpy4.qualtrics.com/jfe/form/SV_abCRhX9AdldOB4W";
 
         this.continue_study_rect = {
             x:
