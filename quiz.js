@@ -61,7 +61,7 @@ class Quiz {
                 this.list_of_questions.length;
 
             this.list_of_questions.push([
-                "Attention check: Please select \"Please answer here\".",
+                "Dear participant, please select \"Please answer here\".",
                 [
                     "a) Continue",
                     "b) Please answer here",
