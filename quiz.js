@@ -61,7 +61,7 @@ class Quiz {
                 this.list_of_questions.length;
 
             this.list_of_questions.push([
-                "Dear participant, please select \"Please answer here\".",
+                "Attention check: Please select \"Please answer here\".",
                 [
                     "a) Continue",
                     "b) Please answer here",
@@ -295,7 +295,19 @@ class Quiz {
                 this.responses.push({
                     questionIndex:
                         this.question_index,
+                    questionText:
+                        question[0],
                     selectedIndex: i,
+                    selectedLetter:
+                        String.fromCharCode(
+                            65 + i
+                        ),
+                    correctIndex:
+                        correct_idx,
+                    correctLetter:
+                        String.fromCharCode(
+                            65 + correct_idx
+                        ),
                     correct:
                         i === correct_idx,
                     attentionCheck: true
@@ -317,7 +329,19 @@ class Quiz {
             this.responses.push({
                 questionIndex:
                     this.question_index,
+                questionText:
+                    question[0],
                 selectedIndex: i,
+                selectedLetter:
+                    String.fromCharCode(
+                        65 + i
+                    ),
+                correctIndex:
+                    correct_idx,
+                correctLetter:
+                    String.fromCharCode(
+                        65 + correct_idx
+                    ),
                 correct:
                     i === correct_idx,
                 attentionCheck: false

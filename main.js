@@ -79,6 +79,12 @@ class AssessmentApp {
 
         this.responses = [];
 
+        this.prestudy_results = null;
+
+        // Preserve Prolific identifiers if the assessment URL contains them.
+        this.incoming_participant_params =
+            this.getIncomingParticipantParams();
+
         this.setupEventListeners();
 
         this.updateSectionCard();
@@ -191,6 +197,10 @@ class AssessmentApp {
                 this.prestudy_completed =
                     true;
 
+                this.prestudy_results =
+                    this.prestudy_screen
+                        .get_results();
+
                 this.state =
                     "menu";
             } else if (
@@ -259,8 +269,7 @@ class AssessmentApp {
                     this.continue_study_rect
                 )
             ) {
-                window.location.href =
-                    this.experience_study_url;
+                this.goToExperienceStudy();
             }
 
             return;
@@ -346,6 +355,198 @@ class AssessmentApp {
     }
 
 
+    getIncomingParticipantParams() {
+        const currentParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const result = {};
+
+        [
+            "PROLIFIC_PID",
+            "STUDY_ID",
+            "SESSION_ID"
+        ].forEach(key => {
+            const value =
+                currentParams.get(key);
+
+            if (value) {
+                result[key] = value;
+            }
+        });
+
+        return result;
+    }
+
+
+    buildStudyData() {
+        const data = {
+            condition: "basic",
+            total_correct:
+                this.total_correct_answers
+        };
+
+        // Pre-study: three content questions + attention check.
+        if (this.prestudy_results) {
+            data.prestudy_score =
+                this.prestudy_results
+                    .contentCorrect;
+
+            const preContent =
+                this.prestudy_results
+                    .responses
+                    .filter(
+                        response =>
+                            !response
+                                .attentionCheck
+                    );
+
+            preContent.forEach(
+                (response, index) => {
+                    const number =
+                        index + 1;
+
+                    data[
+                        `pre_q${number}`
+                    ] =
+                        response
+                            .selectedLetter;
+
+                    data[
+                        `pre_q${number}_correct`
+                    ] =
+                        response.correct
+                            ? 1
+                            : 0;
+                }
+            );
+
+            const preAttention =
+                this.prestudy_results
+                    .responses
+                    .find(
+                        response =>
+                            response
+                                .attentionCheck
+                    );
+
+            if (preAttention) {
+                data.pre_attention =
+                    preAttention
+                        .selectedLetter;
+
+                data.pre_attention_correct =
+                    preAttention.correct
+                        ? 1
+                        : 0;
+            }
+        }
+
+        // Main assessment: flatten the 5 sections into Q1-Q15.
+        let questionNumber = 1;
+        let mainAttention = null;
+
+        this.responses.forEach(
+            section => {
+                section.responses.forEach(
+                    response => {
+                        if (
+                            response
+                                .attentionCheck
+                        ) {
+                            mainAttention =
+                                response;
+
+                            return;
+                        }
+
+                        data[
+                            `q${questionNumber}`
+                        ] =
+                            response
+                                .selectedLetter;
+
+                        data[
+                            `q${questionNumber}_correct`
+                        ] =
+                            response.correct
+                                ? 1
+                                : 0;
+
+                        questionNumber++;
+                    }
+                );
+            }
+        );
+
+        if (mainAttention) {
+            data.main_attention =
+                mainAttention
+                    .selectedLetter;
+
+            data.main_attention_correct =
+                mainAttention.correct
+                    ? 1
+                    : 0;
+        }
+
+        // Pass Prolific identifiers forward unchanged when available.
+        Object.entries(
+            this.incoming_participant_params
+        ).forEach(
+            ([key, value]) => {
+                data[key] = value;
+            }
+        );
+
+        return data;
+    }
+
+
+    buildExperienceStudyUrl() {
+        const url =
+            new URL(
+                this.experience_study_url
+            );
+
+        const data =
+            this.buildStudyData();
+
+        Object.entries(
+            data
+        ).forEach(
+            ([key, value]) => {
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
+                    url.searchParams.set(
+                        key,
+                        String(value)
+                    );
+                }
+            }
+        );
+
+        return url.toString();
+    }
+
+
+    goToExperienceStudy() {
+        const targetUrl =
+            this.buildExperienceStudyUrl();
+
+        console.log(
+            "Sending study data to Qualtrics:",
+            this.buildStudyData()
+        );
+
+        window.location.href =
+            targetUrl;
+    }
+
+
     terminateParticipant(
         prolificCode =
             "C1F917Z4"
@@ -398,6 +599,8 @@ class AssessmentApp {
         // Keep performance data available for study integration,
         // but do NOT show it to the participant in the Basic condition.
         window.assessmentResult = {
+            condition: "basic",
+
             totalCorrect:
                 this.total_correct_answers,
 
@@ -414,8 +617,14 @@ class AssessmentApp {
                     0
                 ),
 
+            prestudy:
+                this.prestudy_results,
+
             responses:
-                this.responses
+                this.responses,
+
+            qualtricsData:
+                this.buildStudyData()
         };
 
         console.log(
@@ -521,7 +730,7 @@ class AssessmentApp {
             "28px Comic Sans MS, Arial";
 
         this.ctx.fillText(
-            "Continue with Experience Study",
+            "Continue with Experience Study:",
             CONFIG.WIDTH / 2,
             this.continue_study_rect.y +
                 this.continue_study_rect.height /

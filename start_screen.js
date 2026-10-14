@@ -192,7 +192,8 @@ class InfoScreen {
                 title: "Completion",
                 lines: [
                     "Please complete the assessment independently.",
-                    "After all five sections, click the link to finalize the study."
+                    "There is no game task, mission, reward system, or performance feedback.",
+                    "After all five sections, the assessment ends automatically."
                 ]
             }
         ];
